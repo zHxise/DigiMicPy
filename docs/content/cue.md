@@ -36,6 +36,21 @@ flux_cue = np.average(
 )
 ```
 
-This recipe uses maintenance-adjusted species CUE. Remove the mortality term for
-the gross convention. Use the same `R0`, survivor threshold, and zero-uptake
-rule across every community being compared.
+The quantity computed with the mortality term is a reference-condition
+net-retention proxy, not a realised or measured community CUE.
+`parameters.mortality` is a generic first-order loss of consumer biomass: within
+the model it cannot be separated into maintenance, death, or washout. The proxy
+is evaluated at the reference resource vector `R0`, not at the realised resource
+levels, and a realised CUE would need an explicit accounting of biomass
+production and carbon fates. Remove the mortality term for the gross retained
+fraction, which is set by leakage alone.
+
+Use the same `R0`, survivor threshold, and zero-uptake rule across every
+community being compared, and report them. The proxy depends on `R0`. For a
+uniform reference level `R0 = r` on every resource, both summaries equal
+`gross - K / r`, where `K` is the weighted mean of
+`mortality_i / sum_j uptake_ij` and does not depend on `r`. The sign therefore
+changes at `r = K / gross`, and two treatments with different gross retention
+and different `K` can change rank as `r` changes; only treatments with the same
+gross retention keep their order. Repeat the calculation at more than one
+reference level, and limit qualitative statements to those that hold at each.
